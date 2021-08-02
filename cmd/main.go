@@ -28,17 +28,19 @@ func main() {
 	// // }
 	// //or
 	// docx1.ReplaceTextInBlock("Simple Dimple Block", "EditedBlock", bodyParts)
+	//fmt.Println("bodyParts", bodyParts[1])
+	_ = docx1.ParseBlockToStruct(bodyParts[1])
 	BlockStr := docx1.CreateStructedBlock("LALALA")
 	BlockStr.Head.Bold = true
 	BlockStr.Head.FontSize = 48
 	BlockStr.Head.Color = docx.Cyan
 
-	bodyParts = docx1.AddBlockAtTheEnd(docx1.BlockToStringTesting(BlockStr), bodyParts)
+	bodyParts = docx1.AddBlockAtTheEnd(docx1.BlockToString(BlockStr), bodyParts)
 	BlockStr.Body = "NEw String"
 	BlockStr.Head.Color = docx.Lime
 	BlockStr.Head.FontSize = 64
 	BlockStr.Head.Strike = true
-	bodyParts = docx1.AddBlockAtTheEnd(docx1.BlockToStringTesting(BlockStr), bodyParts)
+	bodyParts = docx1.AddBlockAtTheEnd(docx1.BlockToString(BlockStr), bodyParts)
 	bodyFull := docx1.BodyGlue(bodyParts)
 
 	// docx1.ReplaceWithTag("{div id=1}{/div}", "{div}Test{/div}")

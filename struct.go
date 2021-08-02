@@ -12,6 +12,7 @@ type Font struct {
 	Italic   bool
 	Strike   bool
 	Color    string
+	Another  string
 }
 
 var (

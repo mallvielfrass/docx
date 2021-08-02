@@ -17,20 +17,22 @@ func (d *Docx) CreateStructedBlock(simpleword string) Block {
 			Italic:   false,
 			Strike:   false,
 			Color:    Black,
+			Another:  "",
 		},
 		Body:   simpleword,
 		Footer: "</w:t></w:r></w:p>",
 	}
 }
+
+// func (d *Docx) BlockToString(block Block) string {
+// 	return fmt.Sprintf("%s%s%s", block.Head, block.Body, block.Footer)
+// }
 func (d *Docx) BlockToString(block Block) string {
-	return fmt.Sprintf("%s%s%s", block.Head, block.Body, block.Footer)
-}
-func (d *Docx) BlockToStringTesting(block Block) string {
 	header := ""
-	header += fmt.Sprintf("<w:sz w:val=\"%d\"/><w:szCs w:val=\"%d\"/>", block.Head.FontSize, block.Head.FontSize)
+	header += fmt.Sprintf("<w:sz w:val=\"%d\"/><w:szCs w:val=\"%d\"/>", block.Head.FontSize*2, block.Head.FontSize*2)
 	header += fmt.Sprintf(`<w:rFonts w:eastAsia="%s"/>`, block.Head.FontName)
 	header += fmt.Sprintf(` <w:color w:val="%s"/>`, block.Head.Color)
-
+	header += block.Head.Another
 	if block.Head.Bold {
 		header += "<w:b/><w:bCs/>"
 	}
@@ -55,14 +57,19 @@ func (d *Docx) CreateNewBlock(simpleword string) string {
 	block := fmt.Sprintf("<w:p><w:pPr><w:pStyle w:val=\"Normal\"/><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t>%s</w:t></w:r></w:p>", simpleword)
 	return block
 }
+func (d *Docx) parseHeader(p string) Font {
+	fmt.Printf("header: %s\n", p)
+	return Font{}
+}
 func (d *Docx) ParseBlockToStruct(s string) Block {
 	f := strings.Split(s, "<w:t>")
 	bf := strings.Split(f[1], "</w:t>")
 	//	header := f[0]
+	header := d.parseHeader(strings.Split(f[0], "<w:p>")[1])
 	body := bf[0]
 	footer := bf[1]
 	return Block{
-		//	Head:   header + "<w:t>",
+		Head:   header,
 		Body:   body,
 		Footer: "</w:t>" + footer,
 	}

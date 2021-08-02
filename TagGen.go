@@ -30,7 +30,7 @@ func (d *Docx) ParseNode() (string, string, string) {
 }
 func (d *Docx) GlueNodes(header, body, footer string) {
 	d.content = header + "<w:body>" + body + "</w:body>" + footer
-	fmt.Println(d.content)
+	//	fmt.Println(d.content)
 }
 func (d *Docx) GetFirstElementContain(word string, body []string) (int, error) {
 	for i, item := range body {
@@ -54,26 +54,26 @@ func (d *Docx) AddBlockAfterElement(elemNum int, element string, body []string) 
 	if f == 0 {
 		var el []string
 		el = append(el, element)
-		fmt.Println("60")
+		//	fmt.Println("60")
 		return el
 	}
 	if f < elemNum {
 		body = append(body, element)
-		fmt.Println("65")
+		//		fmt.Println("65")
 		return body
 	}
 	var newBody []string
 	for i := 0; i < f; i++ {
 
 		newBody = append(newBody, body[i])
-		fmt.Printf("i: %d, elemNum: %d\n", i, elemNum-1)
+		//		fmt.Printf("i: %d, elemNum: %d\n", i, elemNum-1)
 		if i == elemNum-1 {
-			fmt.Printf("append: %s\n", element)
+			//			fmt.Printf("append: %s\n", element)
 			newBody = append(newBody, element)
 		}
 	}
-	fmt.Println("75")
-	fmt.Printf("f: %d elem: %d\n", f, elemNum)
+	//	fmt.Println("75")
+	//	fmt.Printf("f: %d elem: %d\n", f, elemNum)
 	return newBody
 }
 func (d *Docx) AddBlockBeforeElement(elemNum int, element string, body []string) []string {

@@ -5,10 +5,8 @@ import (
 	"strings"
 )
 
-func (d *Docx) CreateStructedBlock(simpleword string) Block {
-
-	//	block := fmt.Sprintf("<w:p><w:pPr><w:pStyle w:val=\"Normal\"/><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t>%s</w:t></w:r></w:p>", simpleword)
-	return Block{
+func (d *Docx) CreateStructedBlock(simpleword string, arr ...Font) Block {
+	block := Block{
 		//	Head:   "<w:p><w:pPr><w:pStyle w:val=\"Normal\"/><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t>",
 		Head: Font{
 			FontSize: 15,
@@ -22,6 +20,29 @@ func (d *Docx) CreateStructedBlock(simpleword string) Block {
 		Body:   simpleword,
 		Footer: "</w:t></w:r></w:p>",
 	}
+	arg := arr[0]
+	if len(arr) != 0 {
+		if arg.FontSize != 0 {
+			block.Head.FontSize = arg.FontSize
+		}
+		if arg.FontName != "" {
+			block.Head.FontName = arg.FontName
+		}
+		if arg.Bold {
+			block.Head.Bold = true
+		}
+		if arg.Italic {
+			block.Head.Italic = true
+		}
+		if arg.Strike {
+			block.Head.Strike = true
+		}
+		if arg.Color != "" { //add check is color in allowed list
+			block.Head.Color = arg.Color
+		}
+	}
+	//	block := fmt.Sprintf("<w:p><w:pPr><w:pStyle w:val=\"Normal\"/><w:rPr></w:rPr></w:pPr><w:r><w:rPr></w:rPr><w:t>%s</w:t></w:r></w:p>", simpleword)
+	return block
 }
 
 // func (d *Docx) BlockToString(block Block) string {

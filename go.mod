@@ -1,3 +1,3 @@
-module github.com/nguyenthenguyen/docx
+module github.com/mallvielfrass/docx
 
 go 1.16

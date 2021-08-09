@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/nguyenthenguyen/docx"
-)
+import "github.com/mallvielfrass/docx"
 
 func main() {
 	// Read from docx file

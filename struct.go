@@ -33,3 +33,29 @@ var (
 	Teal    = "008080"
 	Navy    = "000080"
 )
+
+type WP struct {
+	Tag  string
+	Body string
+}
+type WpPr struct {
+	Tag  string
+	Body string
+}
+type RPr struct {
+	Tag  string
+	Body string
+}
+type WR struct {
+	Tag  string
+	Body string
+}
+
+type SectPr struct {
+	Tag  string
+	Body string
+}
+type Document struct {
+	WP     []WP
+	SectPr SectPr
+}

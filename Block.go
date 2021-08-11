@@ -114,3 +114,7 @@ func (d *Docx) EditStructedBlockParams(block Block) Block {
 
 	return block
 }
+
+func (d *Docx) ReplaceBlockToBlocks(bodypart []string, id int, blocks []Block) []string {
+	return []string{}
+}

@@ -36,7 +36,7 @@ var (
 
 type WP struct {
 	Tag  string
-	Body string
+	Body []WPTokens
 }
 type WpPr struct {
 	Tag  string
@@ -50,7 +50,11 @@ type WR struct {
 	Tag  string
 	Body string
 }
-
+type WPTokens struct {
+	Tag  string
+	Body string
+	Attr string
+}
 type SectPr struct {
 	Tag  string
 	Body string

@@ -6,8 +6,8 @@ github.com/jwalton/go-supportscolor v1.0.0 h1:Do3OE2y/iUibg79+QhkRE6G2evYKEv2bwi
 github.com/jwalton/go-supportscolor v1.0.0/go.mod h1:hFVUAZV2cWg+WFFC4v8pT2X/S2qUUBYMioBD9AINXGs=
 github.com/mallvielfrass/fmc v0.0.0-20210710131110-062c590f243d h1:x9VdFALrflhWAMdkkjF+j/CtKpc3PyN+l8uu/Tdaub8=
 github.com/mallvielfrass/fmc v0.0.0-20210710131110-062c590f243d/go.mod h1:IgXZaovv8/S2QamH8CwCsuN2xoN3dfUZiOv0ijBc5UU=
-github.com/mallvielfrass/ooxml v0.0.0-20210811210523-76b87adea3b3 h1:T4TxZ4CtEP/CeSQ/Znodgb6esDcJicnHDVSzmr0LFm0=
-github.com/mallvielfrass/ooxml v0.0.0-20210811210523-76b87adea3b3/go.mod h1:NK2CsilFsdt0yVGZlAIcroze+qlX9MC9FYJfkeJ8Z2s=
+github.com/mallvielfrass/ooxml v0.0.0-20210812085837-c9ab7f83724b h1:GVVozZ7s48TDHYEknejk6ahi/qaY+/YgiQvPtTQVxyk=
+github.com/mallvielfrass/ooxml v0.0.0-20210812085837-c9ab7f83724b/go.mod h1:NK2CsilFsdt0yVGZlAIcroze+qlX9MC9FYJfkeJ8Z2s=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

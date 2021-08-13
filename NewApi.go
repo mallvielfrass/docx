@@ -189,3 +189,23 @@ func wpTokenToString(item WP) string {
 	}
 	return "<w:p>" + body + "</w:p>"
 }
+func Screening(s string) string {
+	var retString string
+	for _, item := range s {
+		//fmc.Printfln("char: [%s]", string(item))
+		it := string(item)
+		switch it {
+		case "<":
+			retString += "&lt;"
+		case ">":
+			retString += "&gt;"
+		case "&":
+			retString += "&amp;"
+		case "'":
+			retString += "&apos;"
+		default:
+			retString += it
+		}
+	}
+	return retString
+}

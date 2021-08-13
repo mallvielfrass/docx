@@ -317,3 +317,20 @@ func TestCompile(t *testing.T) {
 		return
 	}
 }
+
+type Exp struct {
+	Origin   string
+	Expected string
+}
+
+func TestScreening(t *testing.T) {
+	equal := []Exp{
+		{
+			Origin:   "Э<div>lala&</div>",
+			Expected: "Э&lt;div&gt;lala&amp;&lt;/div&gt;",
+		},
+	}
+	for _, item := range equal {
+		assert.Equal(t, item.Expected, Screening(item.Origin))
+	}
+}

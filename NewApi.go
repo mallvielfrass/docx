@@ -125,6 +125,7 @@ func (d *Document) EditBlockByID(id int) {
 
 }
 func (d *Document) ReplaceTagString(oldTag, newString string) error {
+	newString = Screening(newString)
 	id, err := d.GetBlockIDByTag(oldTag)
 	if err != nil {
 		//t.Error(err)

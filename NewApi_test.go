@@ -334,3 +334,6 @@ func TestScreening(t *testing.T) {
 		assert.Equal(t, item.Expected, Screening(item.Origin))
 	}
 }
+func TestEditBlockWithNewLine(t *testing.T) {
+	t.Error(fmt.Errorf("default"))
+}

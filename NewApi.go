@@ -124,8 +124,49 @@ func (d *Document) GetBlockIDByTag(s string) (int, error) {
 func (d *Document) EditBlockByID(id int) {
 
 }
+func (d *Document) EditBlockWithNewLine(oldTag, newString string) error {
+	id, err := d.GetBlockIDByTag(oldTag)
+	if err != nil {
+		//t.Error(err)
+		return err
+	}
+	for i, itemD := range d.WP[id].Body {
+		// if strings.Contains(itemD.Body s) {
+
+		// 		}
+		if itemD.Tag == "w:r" {
+			if strings.Contains(itemD.Body, oldTag) {
+				ex := d.WP[id].Body[i]
+				tags := strings.Split(newString, "\n")
+				var tempArray []WPTokens
+				for _, tagI := range tags {
+					if tagI != "" {
+						z := ex
+						z.Body = tagI
+						tempArray = append(tempArray, z)
+					}
+				}
+				if len(d.WP[id].Body) == 1 {
+					d.WP[id].Body = tempArray
+					return nil
+				}
+				right := d.WP[id].Body[i:]
+				d.WP[id].Body = append(d.WP[id].Body[:i-1], tempArray...)
+				d.WP[id].Body = append(d.WP[id].Body, right...)
+				//d.WP[id].Body[i].Body = strings.Replace(itemD.Body, oldTag, newString, -1)
+				return nil
+			}
+		}
+	}
+	return fmt.Errorf("tag not found")
+	//return nil
+}
 func (d *Document) ReplaceTagString(oldTag, newString string) error {
 	newString = Screening(newString)
+	if strings.Contains(newString, "\n") {
+		return d.EditBlockWithNewLine(oldTag, newString)
+	}
+
 	id, err := d.GetBlockIDByTag(oldTag)
 	if err != nil {
 		//t.Error(err)

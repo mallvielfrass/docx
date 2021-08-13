@@ -51,9 +51,10 @@ type WR struct {
 	Body string
 }
 type WPTokens struct {
-	Tag  string
-	Body string
-	Attr string
+	Tag    string
+	Body   string
+	Attr   string
+	Status int
 }
 type SectPr struct {
 	Tag  string

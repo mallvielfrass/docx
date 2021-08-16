@@ -7,8 +7,8 @@ import (
 	"testing"
 )
 
-const testFile = "./TestDocument.docx"
-const testFileResult = "./TestDocumentResult.docx"
+const testFile = "./testingDOC/TestDocument.docx"
+const testFileResult = "./testingDOC/TestDocumentResult.docx"
 
 func loadFile(file string) *Docx {
 	r, err := ReadDocxFile(file)

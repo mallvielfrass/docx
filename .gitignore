@@ -1,3 +1,5 @@
 TestDocumentResult.docx
 .idea/
 testingXML/*.docx_FILES/
+.vscode
+testingXML/.~lock.TestDocumentTag234.docx#

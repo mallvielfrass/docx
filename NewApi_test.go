@@ -229,7 +229,7 @@ func TestReplaceTagString(t *testing.T) {
 		return
 	}
 	//	fmt.Println(doc.WP[0].Body)
-	exp := `<w:rPr><w:rFonts w:eastAsia="Calibri" w:cs="" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi"/><w:color w:val="00000A"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr><w:t>Name: KVA</w:t>`
+	exp := `<w:rPr><w:rFonts w:eastAsia="Calibri" w:cs="" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi"/><w:color w:val="000000"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:shd w:fill="FFFFFF" w:val="clear"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr><w:t>Name: KVA</w:t>`
 	assert.Equal(t, exp, doc.WP[0].Body[len(doc.WP[0].Body)-1].Body)
 }
 
@@ -292,9 +292,8 @@ func TestCompile(t *testing.T) {
 	//	exp := `<w:rPr><w:rFonts w:eastAsia="Calibri" w:cs="" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi"/><w:color w:val="00000A"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr><w:t>Name: KVA</w:t>`
 	//assert.Equal(t, exp, doc.WP[0].Body[len(doc.WP[0].Body)-1].Body)
 	expDoc := `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" mc:Ignorable="w14 wp14"><w:body><w:p><w:pPr><w:pStyle w:val="Normal"/><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="" w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/><w:color w:val="00000A"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="Calibri" w:cs="" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi"/><w:color w:val="00000A"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr><w:t>Name: KVA</w:t></w:r></w:p><w:p><w:pPr><w:pStyle w:val="Normal"/><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="" w:asciiTheme="minorHAnsi" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi" w:hAnsiTheme="minorHAnsi"/><w:color w:val="00000A"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="Calibri" w:cs="" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi"/><w:color w:val="00000A"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr><w:t>Log: {Log} Date {Date}</w:t></w:r></w:p><w:sectPr><w:headerReference w:type="default" r:id="rId2"/><w:footerReference w:type="default" r:id="rId3"/><w:type w:val="nextPage"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:left="1440" w:right="1440" w:header="720" w:top="1440" w:footer="720" w:bottom="1440" w:gutter="0"/><w:pgNumType w:fmt="decimal"/><w:formProt w:val="false"/><w:textDirection w:val="lrTb"/><w:docGrid w:type="default" w:linePitch="360" w:charSpace="0"/></w:sectPr></w:body></w:document>`
-
-	err = docx1.Compile("./doc.docx", doc)
+<w:document xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" mc:Ignorable="w14 wp14"><w:body><w:p><w:pPr><w:pStyle w:val="Normal"/><w:rPr><w:color w:val="000000"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="Calibri" w:cs="" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi"/><w:color w:val="000000"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:shd w:fill="FFFFFF" w:val="clear"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr><w:t>Name: KVA</w:t></w:r></w:p><w:p><w:pPr><w:pStyle w:val="Normal"/><w:rPr><w:color w:val="000000"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="Calibri" w:cs="" w:cstheme="minorBidi" w:eastAsiaTheme="minorHAnsi"/><w:color w:val="000000"/><w:kern w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr><w:t>Log: {Log} Date {Date}</w:t></w:r></w:p><w:sectPr><w:headerReference w:type="default" r:id="rId2"/><w:footerReference w:type="default" r:id="rId3"/><w:type w:val="nextPage"/><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:left="1440" w:right="1440" w:header="720" w:top="1440" w:footer="720" w:bottom="1440" w:gutter="0"/><w:pgNumType w:fmt="decimal"/><w:formProt w:val="false"/><w:textDirection w:val="lrTb"/><w:docGrid w:type="default" w:linePitch="360" w:charSpace="0"/></w:sectPr></w:body></w:document>`
+	err = docx1.Compile("./testingDOC/doc.docx", doc)
 	if err != nil {
 		t.Error(err)
 		return
@@ -311,7 +310,7 @@ func TestCompile(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	err = docx1.Compile("./doc2.docx", doc)
+	err = docx1.Compile("./testingDOC/doc2.docx", doc)
 	if err != nil {
 		t.Error(err)
 		return
@@ -333,7 +332,4 @@ func TestScreening(t *testing.T) {
 	for _, item := range equal {
 		assert.Equal(t, item.Expected, Screening(item.Origin))
 	}
-}
-func TestEditBlockWithNewLine(t *testing.T) {
-	t.Error(fmt.Errorf("default"))
 }

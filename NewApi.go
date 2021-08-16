@@ -124,6 +124,9 @@ func (d *Document) GetBlockIDByTag(s string) (int, error) {
 func (d *Document) EditBlockByID(id int) {
 
 }
+func (d *Document) AppendWPBlockInToEnd(block WP) {
+	d.WP = append(d.WP, block)
+}
 func (d *Document) EditBlockWithNewLine(oldTag, newString string) error {
 	id, err := d.GetBlockIDByTag(oldTag)
 	if err != nil {
@@ -141,8 +144,9 @@ func (d *Document) EditBlockWithNewLine(oldTag, newString string) error {
 				var tempArray []WPTokens
 				for _, tagI := range tags {
 					if tagI != "" {
+						//	fmc.Printfln("tag:[%v]", tagI)
 						z := ex
-						z.Body = tagI
+						z.Body = "<w:t>" + tagI + "</w:t><w:br/>"
 						tempArray = append(tempArray, z)
 					}
 				}
@@ -151,7 +155,9 @@ func (d *Document) EditBlockWithNewLine(oldTag, newString string) error {
 					return nil
 				}
 				right := d.WP[id].Body[i:]
-				d.WP[id].Body = append(d.WP[id].Body[:i-1], tempArray...)
+				left := d.WP[id].Body[:i]
+				//	fmt.Printf("right: [%v] left: [%v]\ntemp: [%v]\n", right, left, tempArray)
+				d.WP[id].Body = append(left, tempArray...)
 				d.WP[id].Body = append(d.WP[id].Body, right...)
 				//d.WP[id].Body[i].Body = strings.Replace(itemD.Body, oldTag, newString, -1)
 				return nil

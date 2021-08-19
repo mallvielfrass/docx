@@ -147,3 +147,26 @@ func AtomicWPTokensToString(token WPTokens) string {
 	}
 	return body
 }
+func GetTextFromXML(src string) (string, error) {
+	res, err := wpParser(src)
+	if err != nil {
+		return "", err
+	}
+	var text string
+	for _, item := range res {
+		//		fmt.Printf("res[]: %s\n", item.Tag)
+		if item.Tag == "w:r" {
+			res, err := wpParser(item.Body)
+			if err != nil {
+				return "", err
+			}
+			for _, wtTag := range res {
+				if wtTag.Tag == "w:t" {
+					//fmt.Printf("w:t: %s\n", wtTag.Body)
+					text += wtTag.Body
+				}
+			}
+		}
+	}
+	return text, nil
+}

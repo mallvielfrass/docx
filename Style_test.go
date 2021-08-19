@@ -176,3 +176,88 @@ func TestAtomicWPTokensToString(t *testing.T) {
 		})
 	}
 }
+func TestGetTextFromXML(t *testing.T) {
+	diff := []struct {
+		Original string
+		Expected string
+	}{
+		{
+			Original: `<w:pPr>
+                <w:pStyle w:val="Normal"/>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="Calibri"/>
+                    <w:bCs/>
+                    <w:lang w:val="en-US"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="Calibri" w:cs="Calibri"/>
+                    <w:lang w:val="en-US"/>
+                </w:rPr>
+                <w:t>Hereby I do confirm the completeness of review and approval process for document initiated b</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="Calibri" w:cs="Calibri"/>
+                    <w:lang w:val="en-US"/>
+                </w:rPr>
+                <w:t>y {InitiatorName} on 2020-04-08 00:00:00 +0000 UTC.  {D</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="Calibri" w:cs="Calibri" w:eastAsiaTheme="minorHAnsi"/>
+                    <w:color w:val="00000A"/>
+                    <w:kern w:val="0"/>
+                    <w:sz w:val="24"/>
+                    <w:szCs w:val="24"/>
+                    <w:lang w:val="en-US" w:eastAsia="en-US" w:bidi="ar-SA"/>
+                </w:rPr>
+                <w:t>o</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="Calibri" w:cs="Calibri"/>
+                    <w:lang w:val="en-US"/>
+                </w:rPr>
+                <w:t>cumentID} </w:t>
+            </w:r>`,
+			Expected: "Hereby I do confirm the completeness of review and approval process for document initiated by {InitiatorName} on 2020-04-08 00:00:00 +0000 UTC.  {DocumentID} ",
+		},
+		{
+			Original: `
+            <w:pPr>
+                <w:pStyle w:val="TextBody"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="Calibri"/>
+                    <w:lang w:val="en-US"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="Calibri" w:cs="Calibri"/>
+                    <w:lang w:val="en-US"/>
+                </w:rPr>
+                <w:t xml:space="preserve">Review was completed by </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="Calibri" w:cs="Calibri"/>
+                    <w:lang w:val="en-US"/>
+                </w:rPr>
+                <w:t>{SMENameForReview0} on {RevewedBySMEDate[0]}</w:t>
+            </w:r>`,
+			Expected: "Review was completed by {SMENameForReview0} on {RevewedBySMEDate[0]}",
+		},
+	}
+	for _, diffItem := range diff {
+		res, err := GetTextFromXML(diffItem.Original)
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		//	fmt.Printf("res: %s\n", res)
+		assert.Equal(t, diffItem.Expected, res)
+	}
+}

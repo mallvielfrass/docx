@@ -54,3 +54,45 @@ func TestFindMatchInArray(t *testing.T) {
 		})
 	}
 }
+func TestFindMatchInArrayBroken(t *testing.T) {
+	type args struct {
+		arr     []string
+		pattern string
+	}
+	tests := []struct {
+		name                                string
+		args                                args
+		StartIndexElementWithPartOfPattern  int
+		StopIndexElementWithPartOfPattern   int
+		ShiftBeginningPatternInFirstElement int
+	}{
+		{name: "First",
+			args: args{
+				arr:     []string{"lalaЭЭd{c", "h", "eck}f", "rdad"},
+				pattern: "{12234}",
+			},
+			StartIndexElementWithPartOfPattern:  0,
+			StopIndexElementWithPartOfPattern:   2,
+			ShiftBeginningPatternInFirstElement: 9,
+		},
+		{name: "Second",
+			args: args{
+				arr:     []string{"lalaЭЭ", " ыывлоц3о2424", "!№*№?*", "{cheeck}rdad"},
+				pattern: "{check}",
+			},
+			StartIndexElementWithPartOfPattern:  3,
+			StopIndexElementWithPartOfPattern:   3,
+			ShiftBeginningPatternInFirstElement: 0,
+		},
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, _, _, err := FindMatchInArray(tt.args.arr, tt.args.pattern)
+			if err == nil {
+				t.Error("expected error")
+			}
+
+		})
+	}
+}

@@ -62,5 +62,30 @@ func (d *Document) ReplaceTextByIDWP(tag, dest string) error {
 	// for _, item := range d.WP[wpID].Body {
 
 	// }
+	//tgi := 0
+	//tgn := 0
+	wbody := d.WP[wpID].Body
+	for i := 0; i < len(wbody); i++ {
+		item := wbody[i]
+		fmt.Println(item.Tag)
+		if item.Tag == "w:r" {
+			res, err := wpParser(item.Body)
+			if err != nil {
+				return err
+			}
+			for _, wtTag := range res {
+				if wtTag.Tag == "w:t" {
+
+					//fmt.Printf("w:t: %s\n", wtTag.Body)
+					// if
+
+					// if strings.Contains(wtTag.Body, tag[tgi:tgn]) {
+					// 	// 	return   err
+					// }
+					// text += wtTag.Body
+				}
+			}
+		}
+	}
 	return fmt.Errorf("replace error")
 }

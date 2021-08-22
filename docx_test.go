@@ -21,6 +21,10 @@ func loadFile(file string) *Docx {
 
 func loadFromMemory(file string) *Docx {
 	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		panic(err)
+	}
+
 	r, err := ReadDocxFromMemory(bytes.NewReader(data), int64(len(data)))
 	if err != nil {
 		panic(err)

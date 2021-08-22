@@ -165,7 +165,7 @@ func TestGetBlockByIDName(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	id, err := doc.GetBlockIDByTag("{Name}")
+	id, err := doc.GetBlockIDByTagDeprecated("{Name}")
 	if err != nil {
 		t.Error(err)
 		return
@@ -184,7 +184,7 @@ func TestGetBlockByIDNameBroken(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	_, err = doc.GetBlockIDByTag("{BrokenName}")
+	_, err = doc.GetBlockIDByTagDeprecated("{BrokenName}")
 	if err == nil {
 		t.Error(err, "expected error")
 		return
@@ -203,7 +203,7 @@ func TestEditBlockByID(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	id, err := doc.GetBlockIDByTag("{Name}")
+	id, err := doc.GetBlockIDByTagDeprecated("{Name}")
 	if err != nil {
 		t.Error(err)
 		return

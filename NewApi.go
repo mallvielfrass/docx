@@ -105,7 +105,7 @@ func (d *Document) AddNewBlock(s string) {
 		},
 	})
 }
-func (d *Document) GetBlockIDByTag(s string) (int, error) {
+func (d *Document) GetBlockIDByTagDeprecated(s string) (int, error) {
 	for i, item := range d.WP {
 		for _, itemD := range item.Body {
 			// if strings.Contains(itemD.Body s) {
@@ -128,7 +128,7 @@ func (d *Document) AppendWPBlockInToEnd(block WP) {
 	d.WP = append(d.WP, block)
 }
 func (d *Document) EditBlockWithNewLine(oldTag, newString string) error {
-	id, err := d.GetBlockIDByTag(oldTag)
+	id, err := d.GetBlockIDByTagDeprecated(oldTag)
 	if err != nil {
 		//t.Error(err)
 		return err
@@ -173,7 +173,7 @@ func (d *Document) ReplaceTagString(oldTag, newString string) error {
 		return d.EditBlockWithNewLine(oldTag, newString)
 	}
 
-	id, err := d.GetBlockIDByTag(oldTag)
+	id, err := d.GetBlockIDByTagDeprecated(oldTag)
 	if err != nil {
 		//t.Error(err)
 		return err

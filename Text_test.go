@@ -450,5 +450,73 @@ func TestExtractWPToArrayTextString(t *testing.T) {
 	}
 }
 func TestBuildArrayTextStringToWP(t *testing.T) {
+	diff := []struct {
+		TestName      string
+		SourceDoc     WP
+		ExpectedDoc   WP
+		SourceStrings []string
+	}{
+		{
+			TestName:      "First",
+			SourceStrings: []string{"{Nam", "e}Lava"},
+			SourceDoc: WP{
+				Tag: "w:p",
+				Body: []WPTokens{
+					{
+						Tag:    "w:pPr",
+						Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+						Attr:   ``,
+						Status: Open,
+					},
+					{
+						Tag:    "w:r",
+						Body:   `<w:rPr></w:rPr><w:t></w:t>`,
+						Attr:   ``,
+						Status: Open,
+					},
+					{
+						Tag:    "w:r",
+						Body:   `<w:rPr></w:rPr><w:t></w:t>`,
+						Attr:   ``,
+						Status: Open,
+					},
+				},
+			},
 
+			ExpectedDoc: WP{
+				Tag: "w:p",
+				Body: []WPTokens{
+					{
+						Tag:    "w:pPr",
+						Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+						Attr:   ``,
+						Status: Open,
+					},
+					{
+						Tag:    "w:r",
+						Body:   `<w:rPr></w:rPr><w:t>{Nam</w:t>`,
+						Attr:   ``,
+						Status: Open,
+					},
+					{
+						Tag:    "w:r",
+						Body:   `<w:rPr></w:rPr><w:t>e}Lava</w:t>`,
+						Attr:   ``,
+						Status: Open,
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range diff {
+
+		t.Run(tt.TestName, func(t *testing.T) {
+			strArray, err := BuildArrayTextStringToWP(tt.SourceDoc, tt.SourceStrings)
+			if err != nil {
+				t.Error(err)
+				return
+			}
+			assert.Equal(t, tt.ExpectedDoc, strArray)
+		})
+	}
 }

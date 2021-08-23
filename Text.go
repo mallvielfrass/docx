@@ -101,6 +101,63 @@ func RebuildBlocks(pattern string, source []string) ([]string, int, error) {
 	//	fmt.Printf("newSource: [%+v] patternLen: [%d], plCounter: [%d]\n", newSource, patternLen, patternLenCounter)
 	return newSource, start, nil
 }
+
 func ExtractWPToArrayTextString(wp WP) ([]string, error) {
-	return []string{}, fmt.Errorf("extract failed")
+	var body []string
+	for _, item := range wp.Body {
+		switch item.Tag { //извлекает из параграфа только блоки с текстом
+		case "w:r":
+			//работа с тегом w:r________
+			wrTokens, err := wpParser(item.Body) //парсит содержимое <w:r> на отдельные токены
+			if err != nil {
+				return []string{}, err
+			}
+			//____работа с токенами тега "w:r" и их фильтрация
+			for _, wrToken := range wrTokens {
+				switch wrToken.Tag {
+				case "w:t": //фильтруем только токены w:t. в них содержится текст
+					//	fmt.Printf("w:t: [%s]\n", wrToken.Body)
+					body = append(body, wrToken.Body)
+				}
+			}
+			//____
+			//closed[работа с тегом w:r]
+		}
+	}
+	return body, nil
+}
+func BuildArrayTextStringToWP(wp WP, bodyStrings []string) (WP, error) {
+	counter := 0
+	for r, item := range wp.Body {
+		switch item.Tag { //извлекает из параграфа только блоки с текстом
+		case "w:r":
+			//работа с тегом w:r________
+			wrTokens, err := wpParser(item.Body) //парсит содержимое <w:r> на отдельные токены
+			if err != nil {
+				return WP{}, err
+			}
+			var wrBody string //заготовка тела wr для упаковки
+			//____работа с токенами тега "w:r" и их фильтрация
+			for i, wrToken := range wrTokens {
+				switch wrToken.Tag {
+				case "w:t": //фильтруем только токены w:t. в них содержится текст
+
+					if len(bodyStrings) < counter+1 {
+						return WP{}, fmt.Errorf("len(bodyStrings)mpore than len([]array(<w:t>))")
+					}
+					wrToken.Body = bodyStrings[counter]
+					wrTokens[i] = wrToken
+					counter++
+
+				}
+				wrBody += AtomicWPTokensToString(wrToken)
+			}
+			//____closed[работа с токенами тега "w:r" и их фильтрация]
+			//____упаковка body токена w:r
+			wp.Body[r].Body = wrBody
+			//____closed[упаковка body токена w:r]
+			//closed[работа с тегом w:r]
+		}
+	}
+	return wp, nil
 }

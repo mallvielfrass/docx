@@ -7,13 +7,27 @@ import (
 	"github.com/mallvielfrass/docx/algo"
 )
 
-func (d *Document) ReplaceTextByTag(pattern string) error {
+func (d *Document) ReplaceTextByTag(pattern string, text string) error {
 	id, err := d.GetBlockIDByTag(pattern)
 	if err != nil {
 		return err
 	}
-	_ = id
-	return fmt.Errorf("replace failed")
+	wp := d.WP[id]
+	arr, err := ExtractWPToArrayTextString(wp)
+	if err != nil {
+		return err
+	}
+	rebArr, patID, err := RebuildBlocks(pattern, arr)
+	if err != nil {
+		return err
+	}
+	rebArr[patID] = strings.Replace(rebArr[patID], pattern, Screening(text), 1)
+	wpNew, err := BuildArrayTextStringToWP(wp, rebArr)
+	if err != nil {
+		return err
+	}
+	wp = wpNew
+	return nil
 }
 func (d *Document) GetBlockIDByTag(tag string) (int, error) {
 	for i, WPItem := range d.WP { //итерация всех параграфов

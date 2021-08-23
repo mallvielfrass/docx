@@ -98,7 +98,7 @@ func TestReplaceTextByTag(t *testing.T) {
 							},
 							{
 								Tag:    "w:r",
-								Body:   `<w:rPr></w:rPr><w:t>{Name}</w:t>`,
+								Body:   `<w:rPr></w:rPr><w:t>Jack</w:t>`,
 								Attr:   ``,
 								Status: Open,
 							},
@@ -216,7 +216,7 @@ func TestReplaceTextByTag(t *testing.T) {
 	for _, tt := range diff {
 
 		t.Run(tt.TestName, func(t *testing.T) {
-			err := tt.SourceDoc.ReplaceTextByTag(tt.Tag)
+			err := tt.SourceDoc.ReplaceTextByTag(tt.Tag, tt.EditWord)
 			if err != nil {
 				t.Error(err)
 				return

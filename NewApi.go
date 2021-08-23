@@ -2,7 +2,6 @@ package docx
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/mallvielfrass/ooxml"
 )
@@ -105,92 +104,55 @@ func (d *Document) AddNewBlock(s string) {
 		},
 	})
 }
-func (d *Document) GetBlockIDByTagDeprecated(s string) (int, error) {
-	for i, item := range d.WP {
-		for _, itemD := range item.Body {
-			// if strings.Contains(itemD.Body s) {
 
-			// 		}
-			if itemD.Tag == "w:r" {
-				if strings.Contains(itemD.Body, s) {
-					return i, nil
-				}
-			}
-		}
-
-	}
-	return 0, fmt.Errorf("block with tag not found")
-}
 func (d *Document) EditBlockByID(id int) {
 
 }
 func (d *Document) AppendWPBlockInToEnd(block WP) {
 	d.WP = append(d.WP, block)
 }
-func (d *Document) EditBlockWithNewLine(oldTag, newString string) error {
-	id, err := d.GetBlockIDByTagDeprecated(oldTag)
-	if err != nil {
-		//t.Error(err)
-		return err
-	}
-	for i, itemD := range d.WP[id].Body {
-		// if strings.Contains(itemD.Body s) {
 
-		// 		}
-		if itemD.Tag == "w:r" {
-			if strings.Contains(itemD.Body, oldTag) {
-				ex := d.WP[id].Body[i]
-				tags := strings.Split(newString, "\n")
-				var tempArray []WPTokens
-				for _, tagI := range tags {
-					if tagI != "" {
-						//	fmc.Printfln("tag:[%v]", tagI)
-						z := ex
-						z.Body = "<w:t>" + tagI + "</w:t><w:br/>"
-						tempArray = append(tempArray, z)
-					}
-				}
-				if len(d.WP[id].Body) == 1 {
-					d.WP[id].Body = tempArray
-					return nil
-				}
-				right := d.WP[id].Body[i:]
-				left := d.WP[id].Body[:i]
-				//	fmt.Printf("right: [%v] left: [%v]\ntemp: [%v]\n", right, left, tempArray)
-				d.WP[id].Body = append(left, tempArray...)
-				d.WP[id].Body = append(d.WP[id].Body, right...)
-				//d.WP[id].Body[i].Body = strings.Replace(itemD.Body, oldTag, newString, -1)
-				return nil
-			}
-		}
-	}
-	return fmt.Errorf("tag not found")
-	//return nil
-}
-func (d *Document) ReplaceTagString(oldTag, newString string) error {
-	newString = Screening(newString)
-	if strings.Contains(newString, "\n") {
-		return d.EditBlockWithNewLine(oldTag, newString)
-	}
+// func (d *Document) EditBlockWithNewLine(oldTag, newString string) error {
+// 	id, err := d.GetBlockIDByTag(oldTag)
+// 	if err != nil {
+// 		//t.Error(err)
+// 		return err
+// 	}
+// 	for i, itemD := range d.WP[id].Body {
+// 		// if strings.Contains(itemD.Body s) {
 
-	id, err := d.GetBlockIDByTagDeprecated(oldTag)
-	if err != nil {
-		//t.Error(err)
-		return err
-	}
-	for i, itemD := range d.WP[id].Body {
-		// if strings.Contains(itemD.Body s) {
+// 		// 		}
+// 		if itemD.Tag == "w:r" {
+// 			if strings.Contains(itemD.Body, oldTag) {
+// 				ex := d.WP[id].Body[i]
+// 				tags := strings.Split(newString, "\n")
+// 				var tempArray []WPTokens
+// 				for _, tagI := range tags {
+// 					if tagI != "" {
+// 						//	fmc.Printfln("tag:[%v]", tagI)
+// 						z := ex
+// 						z.Body = "<w:t>" + tagI + "</w:t><w:br/>"
+// 						tempArray = append(tempArray, z)
+// 					}
+// 				}
+// 				if len(d.WP[id].Body) == 1 {
+// 					d.WP[id].Body = tempArray
+// 					return nil
+// 				}
+// 				right := d.WP[id].Body[i:]
+// 				left := d.WP[id].Body[:i]
+// 				//	fmt.Printf("right: [%v] left: [%v]\ntemp: [%v]\n", right, left, tempArray)
+// 				d.WP[id].Body = append(left, tempArray...)
+// 				d.WP[id].Body = append(d.WP[id].Body, right...)
+// 				//d.WP[id].Body[i].Body = strings.Replace(itemD.Body, oldTag, newString, -1)
+// 				return nil
+// 			}
+// 		}
+// 	}
+// 	return fmt.Errorf("tag not found")
+// 	//return nil
+// }
 
-		// 		}
-		if itemD.Tag == "w:r" {
-			if strings.Contains(itemD.Body, oldTag) {
-				d.WP[id].Body[i].Body = strings.Replace(itemD.Body, oldTag, newString, -1)
-				return nil
-			}
-		}
-	}
-	return fmt.Errorf("tag not found")
-}
 func (d *Document) GetBlockByID(id int) WP {
 	return d.WP[id]
 }

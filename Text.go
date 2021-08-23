@@ -72,31 +72,26 @@ func RebuildBlocks(pattern string, source []string) ([]string, int, error) {
 	patternLenCounter := 0
 	//closed[variables block]
 	for i, item := range source {
-
 		if start <= i && i <= stop {
 			//блок если в item находится часть pattern
 			if stop == i {
 				//работа с последним блоком, в котором есть паттерн
-				//	fmt.Printf("patternLen:[%d]| patternLenCounter: [%d]\n", patternLen, patternLenCounter)
 				shift := patternLen - patternLenCounter
 				firstElem += item[:shift]
 				newSource = append(newSource, item[shift:])
 				continue
 			}
-			//fmt.Printf("start[%d] item[%v]\n", i, item)
 
 			if i == start {
 				//работа с первым блоком, в котором есть паттерн
 				if shift == 0 {
-					//	fmt.Printf("shift : [%s|%d]\n", item, len(item))
 					firstElem += item
 					patternLenCounter += len(item)
 					newSource = append(newSource, "")
 				} else {
-					//fmt.Printf("shift before: [%s|%d], after: [%s|%d]\n", item[:start], len(item[:start]), item[start:], len(item[start:]))
-					firstElem += item[start:]
-					patternLenCounter += len(item[start:])
-					newSource = append(newSource, item[:start])
+					firstElem += item[shift:]
+					patternLenCounter += len(item[shift:])
+					newSource = append(newSource, item[:shift])
 				}
 				continue
 				//closed[работа с первым блоком, в котором есть паттерн]

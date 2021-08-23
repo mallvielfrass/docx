@@ -6,29 +6,29 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestEditBlockWithNewLine(t *testing.T) {
-	r, err := ReadDocxFile("./testingXML/TestDocumentTag2.docx")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	docx1 := r.Editable()
-	doc, err := docx1.Parser()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	err = doc.EditBlockWithNewLine("{Name}", "K\nA")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	err = docx1.Compile("./testingDOC/doc236.docx", doc)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-}
+// func TestEditBlockWithNewLine(t *testing.T) {
+// 	r, err := ReadDocxFile("./testingXML/TestDocumentTag2.docx")
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// 	docx1 := r.Editable()
+// 	doc, err := docx1.Parser()
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// 	err = doc.EditBlockWithNewLine("{Name}", "K\nA")
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// 	err = docx1.Compile("./testingDOC/doc236.docx", doc)
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// }
 func TestCreateMarkedStringListWithRealDoc(t *testing.T) {
 	r, err := ReadDocxFile("./testingXML/TestDocumentTag2.docx")
 	if err != nil {

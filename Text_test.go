@@ -6,6 +6,106 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestGetCopyBlockByTag(t *testing.T) {
+	diff := []struct {
+		TestName string
+		Tag      string
+		//	EditWord  string
+		SourceDoc Document
+		//SourceID    int
+		//	ExpectedID int
+		ExpectedWP WP
+	}{
+		{
+			TestName: "WithSplit",
+			Tag:      "{Name}",
+			//EditWord: "Jack",
+			//ExpectedID: 1,
+			//EditWord:   "Jack",
+
+			SourceDoc: Document{
+				WP: []WP{
+					{
+						Tag: "w:p",
+						Body: []WPTokens{
+							{
+								Tag:    "w:pPr",
+								Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>три</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+						},
+					},
+					{
+						Tag: "w:p",
+						Body: []WPTokens{
+							{
+								Tag:    "w:pPr",
+								Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>{Nam</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>e}Lava</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+						},
+					},
+				},
+				SectPr: SectPr{},
+			},
+			ExpectedWP: WP{
+				Tag: "w:p",
+				Body: []WPTokens{
+					{
+						Tag:    "w:pPr",
+						Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+						Attr:   ``,
+						Status: Open,
+					},
+					{
+						Tag:    "w:r",
+						Body:   `<w:rPr></w:rPr><w:t>{Name}</w:t>`,
+						Attr:   ``,
+						Status: Open,
+					},
+					{
+						Tag:    "w:r",
+						Body:   `<w:rPr></w:rPr><w:t>Lava</w:t>`,
+						Attr:   ``,
+						Status: Open,
+					},
+				},
+			},
+		},
+	}
+
+	for _, tt := range diff {
+
+		t.Run(tt.TestName, func(t *testing.T) {
+			wp, err := tt.SourceDoc.GetCopyBlockByTag(tt.Tag)
+			if err != nil {
+				t.Error(err)
+				return
+			}
+			assert.Equal(t, tt.ExpectedWP, wp)
+		})
+	}
+}
 func TestReplaceTextByTag(t *testing.T) {
 	diff := []struct {
 		TestName  string

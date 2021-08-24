@@ -4,9 +4,33 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/jinzhu/copier"
 	"github.com/mallvielfrass/docx/algo"
 )
 
+func (d *Document) GetCopyBlockByTag(pattern string) (WP, error) {
+	id, err := d.GetBlockIDByTag(pattern)
+	if err != nil {
+		return WP{}, err
+	}
+	var wp WP
+	copier.CopyWithOption(&wp, &d.WP[id], copier.Option{IgnoreEmpty: false, DeepCopy: true})
+	arr, err := ExtractWPToArrayTextString(wp)
+	if err != nil {
+		return WP{}, err
+	}
+	rebArr, _, err := RebuildBlocks(pattern, arr)
+	if err != nil {
+		return WP{}, err
+	}
+
+	wpNew, err := BuildArrayTextStringToWP(wp, rebArr)
+	if err != nil {
+		return WP{}, err
+	}
+
+	return wpNew, nil
+}
 func (d *Document) ReplaceTextByTag(pattern string, text string) error {
 	id, err := d.GetBlockIDByTag(pattern)
 	if err != nil {
@@ -29,6 +53,7 @@ func (d *Document) ReplaceTextByTag(pattern string, text string) error {
 	wp = wpNew
 	return nil
 }
+
 func (d *Document) GetBlockIDByTag(tag string) (int, error) {
 	for i, WPItem := range d.WP { //итерация всех параграфов
 		var body string

@@ -8,7 +8,20 @@ import (
 	"github.com/mallvielfrass/docx/algo"
 )
 
-func (d *Document) InstertBlockAfterBlockByID(i int, wp WP) error {
+func (d *Document) RemoveBlockByID(i int) error {
+	if len(d.WP) < i {
+		return fmt.Errorf("remove block failed. len []wp < i")
+
+	}
+	part1 := d.WP[:i]
+	part2 := d.WP[i+1:]
+	var r []WP
+	r = append(r, part1...)
+	r = append(r, part2...)
+	d.WP = r
+	return nil
+}
+func (d *Document) InsertBlockAfterBlockByID(i int, wp WP) error {
 	if len(d.WP) < i {
 		return fmt.Errorf("insert block failed. len []wp < i")
 

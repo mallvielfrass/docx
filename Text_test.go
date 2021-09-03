@@ -621,7 +621,7 @@ func TestBuildArrayTextStringToWP(t *testing.T) {
 	}
 }
 
-func TestDocument_InstertBlockAfterBlockByID(t *testing.T) {
+func TestDocument_InsertBlockAfterBlockByID(t *testing.T) {
 	type fields struct {
 		WP     []WP
 		SectPr SectPr
@@ -788,9 +788,169 @@ func TestDocument_InstertBlockAfterBlockByID(t *testing.T) {
 				WP:     tt.fields.WP,
 				SectPr: tt.fields.SectPr,
 			}
-			err := d.InstertBlockAfterBlockByID(tt.args.i, tt.args.wp)
+			err := d.InsertBlockAfterBlockByID(tt.args.i, tt.args.wp)
 			if err != nil {
 				t.Errorf("Document.InstertBlockAfterBlockByID() error = %v, wantErr %v", err, tt.wantErr)
+			}
+			assert.Equal(t, tt.fieldsExp.WP, d.WP)
+		})
+	}
+}
+func TestDocument_RemoveBlockByID(t *testing.T) {
+	type fields struct {
+		WP     []WP
+		SectPr SectPr
+	}
+
+	tests := []struct {
+		name   string
+		fields fields
+
+		wantErr   bool
+		i         int
+		fieldsExp fields
+	}{
+		{
+			name: "First",
+			fields: fields{
+				WP: []WP{
+					{
+						Tag: "w:p",
+						Body: []WPTokens{
+							{
+								Tag:    "w:pPr",
+								Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>1</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>2</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+						},
+					},
+					{
+						Tag: "w:p",
+						Body: []WPTokens{
+							{
+								Tag:    "w:pPr",
+								Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>5</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>6</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+						},
+					},
+					{
+						Tag: "w:p",
+						Body: []WPTokens{
+							{
+								Tag:    "w:pPr",
+								Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>3</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>4</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+						},
+					},
+				},
+				SectPr: SectPr{},
+			},
+			i:       0,
+			wantErr: false,
+			fieldsExp: fields{
+				WP: []WP{
+
+					{
+						Tag: "w:p",
+						Body: []WPTokens{
+							{
+								Tag:    "w:pPr",
+								Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>5</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>6</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+						},
+					},
+					{
+						Tag: "w:p",
+						Body: []WPTokens{
+							{
+								Tag:    "w:pPr",
+								Body:   `<w:pStyle w:val="Normal"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr><w:bidi w:val="0"/><w:jc w:val="left"/><w:rPr></w:rPr>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>3</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+							{
+								Tag:    "w:r",
+								Body:   `<w:rPr></w:rPr><w:t>4</w:t>`,
+								Attr:   ``,
+								Status: Open,
+							},
+						},
+					},
+				},
+				SectPr: SectPr{},
+			},
+		}, // TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := &Document{
+				WP:     tt.fields.WP,
+				SectPr: tt.fields.SectPr,
+			}
+			err := d.RemoveBlockByID(tt.i)
+			if err != nil {
+				t.Errorf("Document.RemoveBlockByID() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			assert.Equal(t, tt.fieldsExp.WP, d.WP)
 		})
